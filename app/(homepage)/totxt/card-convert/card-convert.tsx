@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import * as pdfjsLib from 'pdfjs-dist';
 import { GlobalWorkerOptions } from 'pdfjs-dist';
-import { CardProcess } from './card-procress';
+import { CardProcess } from './card-process';
 import { useRouter } from 'next/navigation';
 import { CardSuccess } from './card-success';
 
@@ -104,16 +104,21 @@ export const CardConvert = () => {
     }
 
     const handleDownload = (text: string, filename: string) => {
-        const blob = new Blob(["\uFEFF" + text], { type: "application/msword" });
         const name = filename.slice(0, -4);
-        saveAs(blob, `${name}.doc`);
+        const element = document.createElement('a');
+        const file = new Blob([text], { type: "text/plain" });
+        element.href = URL.createObjectURL(file);
+        element.download = name + '.txt';
+        document.body.appendChild(element);
+        element.click();
         handleCancel();
     }
     return (
         <div className='space-y-10'>
             <div className='space-y-2 pt-28'>
-                <h1 className='font-extrabold text-3xl text-center'>Convert To Word</h1>
-                <p className='w-[60%] m-auto text-center'>Text recognition without software installation or download. This converter allows you to convert pdf to the Microsoft Word formats DOC and DOCX.</p>
+                <h1 className='font-extrabold text-3xl text-center'>Convert to Text</h1>
+                <p className='w-[60%] m-auto text-center'>Text recognition without software installation or download. This
+                    converter allows you to convert from pdf to the Text formats (.txt).</p>
             </div>
             {
                 pdfFile ? (
@@ -125,8 +130,8 @@ export const CardConvert = () => {
                 ) : <Card className='p-6 flex flex-col justify-center items-center w-[600px] max-md:w-[98%] m-auto'>
                     <CardHeader className='text-center'>
                         <div className='space-y-4'>
-                            <Image className='m-auto' src={'/icon1.svg'} width={48} height={48} alt='logo' />
-                            <CardTitle className='text-2xl'>Convert File To Word</CardTitle>
+                            <Image className='m-auto' src={'/icon5.svg'} width={48} height={48} alt='logo' />
+                            <CardTitle className='text-xl'>Convert File To TxT</CardTitle>
                         </div>
                     </CardHeader>
                     <CardContent>

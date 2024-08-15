@@ -1,9 +1,9 @@
-
+import { CardConvert } from "./card-convert";
 
 const Page = () => {
     return (
         <div>
-            Txt
+            <CardConvert/>  
         </div>
     )
 }

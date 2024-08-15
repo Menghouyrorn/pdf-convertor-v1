@@ -11,7 +11,6 @@ type ButtonProps = {
 }
 
 export const ButtonLink = (props: ButtonProps) => {
-    console.log(props.active);
     const [isActive] = useActiveLink({
         index: 1,
         path: props.active
