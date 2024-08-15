@@ -69,7 +69,7 @@ export const CardConvert = () => {
         <div className='space-y-10'>
             <div className='space-y-2 pt-28'>
                 <h1 className='font-extrabold text-3xl text-center'>Convert Image To Text</h1>
-                <p className='w-[60%] m-auto text-center'>Text recognition without software installation or download. This
+                <p className='w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center'>Text recognition without software installation or download. This
                     converter allows you to convert from Image to the Text formats
                     (.txt).</p>
             </div>

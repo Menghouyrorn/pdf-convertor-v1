@@ -65,7 +65,7 @@ export const CardConvert = () => {
         <div className='space-y-10'>
             <div className='space-y-2 pt-28'>
                 <h1 className='font-extrabold text-3xl text-center'>Convert Image To Word</h1>
-                <p className='w-[60%] m-auto text-center'>Text recognition without software installation or download. This converter allows you to convert Image file to the Microsoft Word formats DOC and DOCX.</p>
+                <p className='w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center'>Text recognition without software installation or download. This converter allows you to convert Image file to the Microsoft Word formats DOC and DOCX.</p>
             </div>
             {
                 imgFile ? (
