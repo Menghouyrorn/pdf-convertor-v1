@@ -1,9 +1,5 @@
-
+import { CardConvert } from "./_components"
 
 export default function Page (){
-    return (
-        <div>
-            Image to Text
-        </div>
-    )
+    return <CardConvert/>
 }

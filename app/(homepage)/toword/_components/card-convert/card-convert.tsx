@@ -126,7 +126,7 @@ export const CardConvert = () => {
                     <CardHeader className='text-center'>
                         <div className='space-y-4'>
                             <Image className='m-auto' src={'/icon1.svg'} width={48} height={48} alt='logo' />
-                            <CardTitle className='text-2xl'>Convert File To Word</CardTitle>
+                            <CardTitle className='text-xl'>Convert File To Word</CardTitle>
                         </div>
                     </CardHeader>
                     <CardContent>

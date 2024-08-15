@@ -20,9 +20,9 @@ export const NAVIGATION_DATA = [
     active: "imagetotext",
   },
   {
-    path:'imagetoword',
-    label:'Image To Word',
-    active:'imagetoword'
+    path: "imagetoword",
+    label: "Image To Word",
+    active: "imagetoword",
   },
   {
     path: "/about",

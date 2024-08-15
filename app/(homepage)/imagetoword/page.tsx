@@ -1,10 +1,6 @@
-
+import { CardConvert } from "./_components";
 const Page =()=>{
-    return(
-        <div>
-            Image to WOrd
-        </div>
-    )
+    return <CardConvert/>
 }
 
 export default Page;
