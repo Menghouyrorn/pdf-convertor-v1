@@ -12,7 +12,7 @@ export const NavbarComputer = () => {
         <div className="flex h-16 pr-10 max-lg:hidden bg-gray-100 dark:bg-transparent border rounded-md items-center justify-between pl-10">
             <div className="flex gap-x-20 items-center">
                 <div className="flex gap-x-3 items-center">
-                    <Image src={'/logo.jpg'} width={55} height={55} className="rounded-md" alt="logo" />
+                    <Image src={currentLang ? '/kh/logo.jpg':'/en/logo.jpg'} width={55} height={55} className="rounded-md" alt="logo" />
                     <p className="font-extrabold text-sm text-[#1b1464] dark:text-white">CAM PDF CONVERTOR</p>
                 </div>
                 <div className="flex">
