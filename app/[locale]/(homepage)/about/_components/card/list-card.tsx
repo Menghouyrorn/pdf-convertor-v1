@@ -9,7 +9,7 @@ interface ListCardProps{
 export const ListCard =({titile,isKhmer}:ListCardProps)=>{
     return(
         <div className="w-full space-y-8">
-            <h1 className="text-3xl font-extrabold text-[#201a67] text-center">{titile}</h1>
+            <h1 className="text-3xl font-extrabold text-[#201a67] dark:text-white text-center">{titile}</h1>
             <div className="grid grid-cols-3 gap-y-4 gap-x-4 max-lg:grid-cols-2 max-md:grid-cols-1 justify-center w-full">
                 {DATA_PERSON.map((item,index)=>{
                     return <CardPerson key={index} name={isKhmer ? item.namekh :item.name} role={isKhmer ? item.rolekh:item.role} url={item.url}/>
