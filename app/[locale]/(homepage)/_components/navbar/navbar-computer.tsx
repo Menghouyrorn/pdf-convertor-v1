@@ -17,7 +17,7 @@ export const NavbarComputer = () => {
                 </div>
                 <div className="flex">
                     {NAVIGATION_DATA.map((item, index) => {
-                        return <ButtonLink active={item.active} label={currentLang ? item.labelkh:item.label} path={item.path} key={index} />
+                        return <ButtonLink isKhmer={currentLang} active={item.active} label={currentLang ? item.labelkh:item.label} path={item.path} key={index} />
                     })}
                 </div>
             </div>

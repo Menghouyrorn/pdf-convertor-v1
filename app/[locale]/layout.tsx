@@ -5,8 +5,10 @@ import { AppProvider } from "@/provider";
 import NextTopLoader from 'nextjs-toploader'
 import React from "react";
 import { I18nProviderClient } from "@/locales/client";
+import { Noto_Sans_Khmer } from 'next/font/google'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"]});
+const khmerfont = Noto_Sans_Khmer({ subsets: ['khmer'], weight: '300',style:"normal" });
 
 export const metadata: Metadata = {
   title: "CAM-PDF-CONVERTOR",
@@ -15,8 +17,8 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ params: { locale }, children }: { params: { locale: string }, children: React.ReactElement }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang={locale} suppressHydrationWarning>
+      <body className={locale == 'kh' ? khmerfont.className : inter.className}>
         <NextTopLoader color="#ef4444" showSpinner={false} />
         <I18nProviderClient locale={locale}>
           <AppProvider>{children}</AppProvider>

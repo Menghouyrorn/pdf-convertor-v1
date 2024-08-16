@@ -12,7 +12,7 @@ export const ListCard =({titile,isKhmer}:ListCardProps)=>{
             <h1 className="text-3xl font-extrabold text-[#201a67] text-center">{titile}</h1>
             <div className="grid grid-cols-3 gap-y-4 gap-x-4 max-lg:grid-cols-2 max-md:grid-cols-1 justify-center w-full">
                 {DATA_PERSON.map((item,index)=>{
-                    return <CardPerson name={isKhmer ? item.namekh :item.name} role={isKhmer ? item.rolekh:item.role} url={item.url}/>
+                    return <CardPerson key={index} name={isKhmer ? item.namekh :item.name} role={isKhmer ? item.rolekh:item.role} url={item.url}/>
                 })}
                 
             </div>

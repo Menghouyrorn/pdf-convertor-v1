@@ -8,6 +8,7 @@ type ButtonProps = {
     path: string;
     label: string;
     active: string;
+    isKhmer:boolean;
 }
 
 export const ButtonLink = (props: ButtonProps) => {
@@ -24,7 +25,7 @@ export const ButtonLink = (props: ButtonProps) => {
             variant={'ghost'}
             asChild
         >
-            <Link className="px-3 py-2 transition-all rounded-lg" href={props.path}>
+            <Link className={props.isKhmer ? 'px-3 text-[16px] py-2 transition-all rounded-lg':"px-3 py-2 transition-all rounded-lg"} href={props.path}>
                 {props.label}
             </Link>
         </Button>

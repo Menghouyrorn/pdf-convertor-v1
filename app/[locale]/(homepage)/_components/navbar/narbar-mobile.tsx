@@ -28,7 +28,7 @@ export const NavbarMobile = () => {
                         </SheetHeader>
                         <div className="grid gap-y-4 pt-6">
                             {NAVIGATION_DATA.map((item, index) => {
-                                return <ButtonLink {...item} label={currentLang ? item.labelkh : item.label} key={index} />
+                                return <ButtonLink isKhmer={currentLang} {...item} label={currentLang ? item.labelkh : item.label} key={index} />
                             })}
                         </div>
                     </SheetContent>
