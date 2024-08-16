@@ -6,7 +6,7 @@ export const DATA_PERSON = [
     name: "Rorn Menghouy",
     role: "Web Development",
     namekh: "រ៉ន​ ម៉េងហួយ",
-    rolekh: "ការអភិវឌ្ឍន៍គេហទំព័រ",
+    rolekh: "អ្នកអភិវឌ្ឍន៍គេហទំព័រ",
   },
   {
     url: "/lyhour.jpg",
