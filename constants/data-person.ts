@@ -5,57 +5,21 @@ export const DATA_PERSON = [
     url: "/me.jpg",
     name: "Rorn Menghouy",
     role: "Web Development",
-    icon: [
-      {
-        id: 1,
-        icon: FaFacebookSquare,
-      },
-      {
-        id: 2,
-        icon: FaGithubSquare,
-      },
-      {
-        id: 3,
-        icon: FaLinkedin,
-      },
-    ],
+    namekh: "រ៉ន​ ម៉េងហួយ",
+    rolekh: "ការអភិវឌ្ឍន៍គេហទំព័រ",
   },
   {
-    url: "/me.jpg",
-    name: "Rorn Menghouy",
-    role: "Web Development",
-    icon: [
-      {
-        id: 1,
-        icon: FaFacebookSquare,
-      },
-      {
-        id: 2,
-        icon: FaGithubSquare,
-      },
-      {
-        id: 3,
-        icon: FaLinkedin,
-      },
-    ],
+    url: "/lyhour.jpg",
+    name: "Leng Lyhor",
+    role: "Web Design",
+    namekh: "ឡេង លីហ័រ",
+    rolekh: "អ្នករចនាគេហទំព័រ",
   },
   {
-    url: "/me.jpg",
-    name: "Rorn Menghouy",
-    role: "Web Development",
-    icon: [
-      {
-        id: 1,
-        icon: FaFacebookSquare,
-      },
-      {
-        id: 2,
-        icon: FaGithubSquare,
-      },
-      {
-        id: 3,
-        icon: FaLinkedin,
-      },
-    ],
+    url: "/nouch.jpg",
+    name: "Tun Sreynouch",
+    role: "Web Design",
+    namekh: "ទន់ ស្រីណុច",
+    rolekh: "អ្នករចនាគេហទំព័រ",
   },
 ];
