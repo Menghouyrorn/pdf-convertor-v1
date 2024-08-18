@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { Navbar } from "./_components";
 import Footer from "./footer";
 
