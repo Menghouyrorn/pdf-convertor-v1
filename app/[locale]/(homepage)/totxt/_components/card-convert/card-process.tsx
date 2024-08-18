@@ -35,7 +35,7 @@ export const CardProcess = ({ fileName, size, onClose, isKhmer }: CardProcessPro
                         <Button className='py-2 w-56 flex gap-x-3 items-center font-semibold'>{isKhmer ? 'កំពុងដំណើរការសូមរងចាំ...' : 'Convert is process...'}
                             <span>
                                 <RotatingLines
-                                    strokeColor="#1b1464"
+                                    strokeColor="#ef4444"
                                     visible={true}
                                     width="24"
                                     strokeWidth="5"
