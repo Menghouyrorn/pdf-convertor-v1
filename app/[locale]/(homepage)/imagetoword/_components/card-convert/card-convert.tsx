@@ -11,6 +11,8 @@ import { useRouter } from 'next/navigation';
 import { CardSuccess } from './card-success';
 import { CheckLange } from '@/shared';
 import { CARD_DATA } from '@/constants';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/ReactToastify.css';
 
 export const CardConvert = () => {
     const [imgFile, setImgFile] = useState<File | null>(null);
@@ -20,6 +22,11 @@ export const CardConvert = () => {
     const router = useRouter();
     const currentLang = CheckLange();
     const cartdata = CARD_DATA[3];
+    const message = (message: string) => toast.success(message, {
+        autoClose: 1500,
+        icon: false,
+        style: { fontWeight: 'bold', fontSize: '14px', paddingLeft: '15px' }
+    });
 
     // use for select file
     const handleSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +47,7 @@ export const CardConvert = () => {
         const text = (await data).data.text;
         setJobId((await data).jobId);
         setText(text);
+        message('Convert is success.');
     }
 
     const sizeFile = (file: File) => {
@@ -64,12 +72,14 @@ export const CardConvert = () => {
         const name = filename.slice(0, -4);
         saveAs(blob, `${name}.doc`);
         handleCancel();
+        message('Download is success');
     }
     return (
         <div className='space-y-10'>
+            <ToastContainer />
             <div className='space-y-4 pt-28'>
-                <h1 className='font-extrabold text-3xl text-center'>{currentLang ? cartdata.labelkh:cartdata.lable}</h1>
-                <p className='w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center'>{currentLang ? cartdata.deskh:cartdata.des}</p>
+                <h1 className='font-extrabold text-3xl text-center'>{currentLang ? cartdata.labelkh : cartdata.lable}</h1>
+                <p className='w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center'>{currentLang ? cartdata.deskh : cartdata.des}</p>
             </div>
             {
                 imgFile ? (
@@ -82,13 +92,13 @@ export const CardConvert = () => {
                     <CardHeader className='text-center'>
                         <div className='space-y-4'>
                             <Image className='m-auto' src={'/icon4.svg'} width={48} height={48} alt='logo' />
-                            <CardTitle className='text-xl'>{currentLang ? cartdata.labelkh:cartdata.lable}</CardTitle>
+                            <CardTitle className='text-xl'>{currentLang ? cartdata.labelkh : cartdata.lable}</CardTitle>
                         </div>
                     </CardHeader>
                     <CardContent>
                         <div className='grid justify-center'>
                             <Input type='file' id='fileinput' accept='image/*' className='hidden' onChange={handleSelectFile} />
-                            <Button className='py-2 w-56' onClick={handleOpenFIleInput}>{currentLang ? 'ជ្រើសរើសឯកសារ':"Select File"}</Button>
+                            <Button className='py-2 w-56' onClick={handleOpenFIleInput}>{currentLang ? 'ជ្រើសរើសឯកសារ' : "Select File"}</Button>
                         </div>
                     </CardContent>
                 </Card>

@@ -14,6 +14,8 @@ import { useRouter } from 'next/navigation';
 import { CardSuccess } from './card-success';
 import { CheckLange } from '@/shared';
 import { CARD_DATA } from '@/constants';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/ReactToastify.css';
 
 GlobalWorkerOptions.workerSrc = "/assets/js/pdf.worker.js";
 
@@ -25,6 +27,11 @@ export const CardConvert = () => {
     const router = useRouter();
     const currentLang = CheckLange();
     const cartdata = CARD_DATA[1];
+    const message = (message: string) => toast.success(message, {
+        autoClose: 1500,
+        icon: false,
+        style: { fontWeight: 'bold', fontSize: '14px', paddingLeft: '15px' }
+    });
 
     // use for select file
     const handleSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +57,7 @@ export const CardConvert = () => {
         }
         texts.join("\n");
         setText(texts);
+        message('Convert is success.')
     }
 
     const getPageImage = async (data: any) => {
@@ -116,12 +124,14 @@ export const CardConvert = () => {
         document.body.appendChild(element);
         element.click();
         handleCancel();
+        message('Download success.')
     }
     return (
         <div className='space-y-10'>
+            <ToastContainer />
             <div className='space-y-4 pt-28'>
-                <h1 className='font-extrabold text-3xl text-center'>{currentLang ? cartdata.labelkh:cartdata.lable}</h1>
-                <p className='w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center'>{currentLang ? cartdata.deskh:cartdata.des}</p>
+                <h1 className='font-extrabold text-3xl text-center'>{currentLang ? cartdata.labelkh : cartdata.lable}</h1>
+                <p className='w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center'>{currentLang ? cartdata.deskh : cartdata.des}</p>
             </div>
             {
                 pdfFile ? (
@@ -134,7 +144,7 @@ export const CardConvert = () => {
                     <CardHeader className='text-center'>
                         <div className='space-y-4'>
                             <Image className='m-auto' src={'/icon5.svg'} width={48} height={48} alt='logo' />
-                            <CardTitle className='text-xl'>{currentLang ? cartdata.labelkh:cartdata.lable}</CardTitle>
+                            <CardTitle className='text-xl'>{currentLang ? cartdata.labelkh : cartdata.lable}</CardTitle>
                         </div>
                     </CardHeader>
                     <CardContent>
