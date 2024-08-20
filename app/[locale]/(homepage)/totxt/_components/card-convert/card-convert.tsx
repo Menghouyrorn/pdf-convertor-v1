@@ -16,6 +16,7 @@ import { CheckLange } from '@/shared';
 import { CARD_DATA } from '@/constants';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css';
+import { motion } from 'framer-motion'
 
 GlobalWorkerOptions.workerSrc = "/assets/js/pdf.worker.js";
 
@@ -130,32 +131,65 @@ export const CardConvert = () => {
         <div className='space-y-10'>
             <ToastContainer />
             <div className='space-y-4 pt-28'>
-                <h1 className='font-extrabold text-3xl text-center'>{currentLang ? cartdata.labelkh : cartdata.lable}</h1>
-                <p className='w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center'>{currentLang ? cartdata.deskh : cartdata.des}</p>
-            </div>
-            {
-                pdfFile ? (
-                    <div>
-                        {
-                            jobId ? <CardSuccess isKhmer={currentLang} filename={filename} onDownload={() => handleDownload(text, filename)} filesize={sizeFile(pdfFile)} /> : <CardProcess isKhmer={currentLang} onClose={handleCancel} fileName={filename.length > 20 ? filename.slice(0, 10) + ' ...' : filename} size={sizeFile(pdfFile)} />
-                        }
-                    </div>
-                ) : <Card className='p-6 flex flex-col justify-center items-center w-[600px] max-md:w-[98%] m-auto'>
-                    <CardHeader className='text-center'>
-                        <div className='space-y-4'>
-                            <Image className='m-auto' src={'/icon5.svg'} width={48} height={48} alt='logo' />
-                            <CardTitle className='text-xl'>{currentLang ? cartdata.labelkh : cartdata.lable}</CardTitle>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className='grid justify-center'>
-                            <Input type='file' id='fileinput' accept='.pdf' className='hidden' onChange={handleSelectFile} />
-                            <Button className='py-2 w-56' onClick={handleOpenFIleInput}>{currentLang ? 'ជ្រើសរើសឯកសារ' : "Select File"}</Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            }
+                <motion.div
+                    initial={{ x: 200, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{
+                        delay: 0.1,
+                        type: "spring",
+                        damping: 20,
+                        stiffness: 55
+                    }}
+                >
+                    <h1 className='font-extrabold text-3xl text-center'>{currentLang ? cartdata.labelkh : cartdata.lable}</h1>
+                </motion.div>
+                <motion.div
+                    initial={{ y: 70, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                        type: "spring",
+                        damping: 20,
+                        stiffness: 100,
+                        delay: 0.1,
+                    }}
+                >
+                    <p className='w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center'>{currentLang ? cartdata.deskh : cartdata.des}</p>
+                </motion.div>
 
+            </div>
+            <motion.div
+                initial={{ y: 70, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                    type: "spring",
+                    damping: 20,
+                    stiffness: 80,
+                    delay: 0.3,
+                }}
+            >
+                {
+                    pdfFile ? (
+                        <div>
+                            {
+                                jobId ? <CardSuccess isKhmer={currentLang} filename={filename} onDownload={() => handleDownload(text, filename)} filesize={sizeFile(pdfFile)} /> : <CardProcess isKhmer={currentLang} onClose={handleCancel} fileName={filename.length > 20 ? filename.slice(0, 10) + ' ...' : filename} size={sizeFile(pdfFile)} />
+                            }
+                        </div>
+                    ) : <Card className='p-6 flex flex-col justify-center items-center w-[600px] max-md:w-[98%] m-auto'>
+                        <CardHeader className='text-center'>
+                            <div className='space-y-4'>
+                                <Image className='m-auto' src={'/icon5.svg'} width={48} height={48} alt='logo' />
+                                <CardTitle className='text-xl'>{currentLang ? cartdata.labelkh : cartdata.lable}</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className='grid justify-center'>
+                                <Input type='file' id='fileinput' accept='.pdf' className='hidden' onChange={handleSelectFile} />
+                                <Button className='py-2 w-56' onClick={handleOpenFIleInput}>{currentLang ? 'ជ្រើសរើសឯកសារ' : "Select File"}</Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+                }
+            </motion.div>
         </div>
     )
 }
