@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation';
 import { CardSuccess } from './card-success';
 import { CheckLange } from '@/shared';
 import { CARD_DATA } from '@/constants';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/ReactToastify.css';
 
 GlobalWorkerOptions.workerSrc = "/assets/js/pdf.worker.js";
 
@@ -24,6 +26,12 @@ export const CardConvert = () => {
     const router = useRouter();
     const currentLang = CheckLange();
     const cartdata = CARD_DATA[0];
+
+    const message = (message: string) => toast.success(message, {
+        autoClose: 1500,
+        icon: false,
+        style: { fontWeight: 'bold', fontSize: '14px', paddingLeft: '15px' }
+    });
 
     // use for select file
     const handleSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +57,7 @@ export const CardConvert = () => {
         }
         texts.join("\n");
         setText(texts);
+        message('Convert is success.');
     }
 
     const getPageImage = async (data: any) => {
@@ -70,8 +79,7 @@ export const CardConvert = () => {
             let img = canvas.toDataURL("image/png");
             imageList.push(img);
         }
-        ConvertImageTOText(imageList)
-
+        ConvertImageTOText(imageList);
     }
 
     const UrlUploader = (file: File) => {
@@ -111,10 +119,12 @@ export const CardConvert = () => {
         const name = filename.slice(0, -4);
         saveAs(blob, `${name}.doc`);
         handleCancel();
+        message('Download success.')
     }
 
     return (
         <div className='space-y-10'>
+            <ToastContainer />
             <div className='space-y-4 pt-28'>
                 <h1 className='font-extrabold text-3xl text-center'>{currentLang ? cartdata.labelkh : cartdata.lable}</h1>
                 <p className='w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center'>{currentLang ? cartdata.deskh : cartdata.des}</p>
