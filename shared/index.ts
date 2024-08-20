@@ -1,1 +1,1 @@
-export * from './checklange'
+export * from './checklange';

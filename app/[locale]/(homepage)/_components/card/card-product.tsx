@@ -12,6 +12,7 @@ interface CardProductProps {
 export const CardProduct = (props: CardProductProps) => {
     const { image, lable, des, path } = props;
     return (
+        
         <Link href={path} className="cursor-pointer transition-all hover:shadow-lg" >
             <Card className="min-h-48 w-full">
                 <CardHeader>
