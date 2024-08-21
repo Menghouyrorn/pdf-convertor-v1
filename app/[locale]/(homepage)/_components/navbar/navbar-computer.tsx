@@ -15,7 +15,7 @@ export const NavbarComputer = () => {
                 <Link href={'/'}>
                     <div className="flex gap-x-3 items-center">
                         <Image src={currentLang ? '/kh/logo.jpg' : '/en/logo.jpg'} width={55} height={55} className="rounded-md" alt="logo" />
-                        <p className="font-extrabold text-sm text-[#1b1464] dark:text-white">CAM PDF CONVERTOR</p>
+                        <p className="font-extrabold text-sm text-[#1b1464] dark:text-white">CAM PDF CONVERTER</p>
                     </div>
                 </Link>
                 <div className="flex">

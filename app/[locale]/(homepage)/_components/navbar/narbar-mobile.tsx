@@ -23,7 +23,7 @@ export const NavbarMobile = () => {
                         <SheetHeader>
                             <SheetTitle className="flex items-center text-sm font-bold gap-x-3">
                                 <Image width={45} className="rounded-md" height={45} src={currentLang ? '/kh/logo.jpg' : '/en/logo.jpg'} alt="logo" />
-                                <p>CAM PDF CONVERTOR</p>
+                                <p>CAM PDF CONVERTER</p>
                             </SheetTitle>
                         </SheetHeader>
                         <div className="grid gap-y-4 pt-6">
