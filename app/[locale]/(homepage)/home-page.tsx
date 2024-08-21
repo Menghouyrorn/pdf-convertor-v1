@@ -3,11 +3,10 @@ import { CARD_DATA, DATAPAGE } from "@/constants"
 import { CardProduct } from "./_components"
 import Image from "next/image"
 import { CheckLange } from "@/shared"
-import { motion, useAnimate } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 export default function HomePage() {
     const currentLang = CheckLange();
-    const controls = useAnimate()
 
     return (
         <div className="space-y-6 pt-5">
@@ -53,7 +52,7 @@ export default function HomePage() {
                 }}>
                 <div className="grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-x-10 gap-y-10">
                     {CARD_DATA.map((item, index) => {
-                        return <CardProduct {...item} lable={currentLang ? item.labelkh : item.lable} des={currentLang ? item.deskh : item.des} image={`/${currentLang ? 'kh' : 'en'}${item.image}`} key={index} />
+                        return <CardProduct key={index} {...item} lable={currentLang ? item.labelkh : item.lable} des={currentLang ? item.deskh : item.des} image={`/${currentLang ? 'kh' : 'en'}${item.image}`} />
                     })}
                 </div>
             </motion.div>

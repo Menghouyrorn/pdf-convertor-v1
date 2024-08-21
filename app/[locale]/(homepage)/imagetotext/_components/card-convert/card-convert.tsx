@@ -1,6 +1,4 @@
 "use client"
-import { saveAs } from 'file-saver';
-import Tesseract from 'tesseract.js';
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,13 +11,12 @@ import { CheckLange } from '@/shared';
 import { CARD_DATA } from '@/constants';
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/ReactToastify.css';
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 
 export const CardConvert = () => {
     const [imgFile, setImgFile] = useState<File | null>(null);
     const [filename, setFilename] = useState("");
     const [text, setText] = useState("");
-    const [jobId, setJobId] = useState<any>(null);
     const router = useRouter();
     const currentLang = CheckLange();
     const cartdata = CARD_DATA[2];
@@ -34,7 +31,14 @@ export const CardConvert = () => {
         const file = e.target.files![0];
         setImgFile(file);
         setFilename(file.name);
-        ConvertImageTOText(URL.createObjectURL(file));
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            ConvertImageTOText(reader.result);
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
     }
 
     // use for open input file
@@ -44,11 +48,17 @@ export const CardConvert = () => {
     }
 
     const ConvertImageTOText = async (file: any) => {
-        const data = Tesseract.recognize(file, "khm+eng", { logger: (e) => console.log(e) });
-        const text = (await data).data.text;
-        setJobId((await data).jobId);
-        setText(text);
-        message('Convert is success.');
+        const convert_to_data_url = file.replace("data:", "").replace(/^.+,/, "");
+        const text = await fetch(`/${currentLang ? 'kh':'en'}/api`, {
+            method: 'POST',
+            body: JSON.stringify({
+                url_image: convert_to_data_url
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json());
+        setText(text.data)
     }
 
     const sizeFile = (file: File) => {
@@ -122,7 +132,7 @@ export const CardConvert = () => {
                     imgFile ? (
                         <div>
                             {
-                                jobId ? <CardSuccess isKhmer={currentLang} filename={filename} onDownload={() => handleDownload(text, filename)} filesize={sizeFile(imgFile)} /> : <CardProcess isKhmer={currentLang} onClose={handleCancel} fileName={filename.length > 20 ? filename.slice(0, 10) + ' ...' : filename} size={sizeFile(imgFile)} />
+                                text ? <CardSuccess isKhmer={currentLang} filename={filename} onDownload={() => handleDownload(text, filename)} filesize={sizeFile(imgFile)} /> : <CardProcess isKhmer={currentLang} onClose={handleCancel} fileName={filename.length > 20 ? filename.slice(0, 10) + ' ...' : filename} size={sizeFile(imgFile)} />
                             }
                         </div>
                     ) : <Card className='p-6 flex flex-col justify-center items-center w-[600px] max-md:w-[98%] m-auto'>

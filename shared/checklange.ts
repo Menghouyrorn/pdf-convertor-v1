@@ -9,4 +9,4 @@ function CheckLange() {
   return check;
 }
 
-export { CheckLange };
+export { CheckLange};

@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <main className="p-4 pb-10 min-h-screen">
                 {children}
             </main>
-            <Footer/>
+            <Footer />
         </div>
 
     )
