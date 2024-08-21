@@ -64,7 +64,8 @@ export const CardConvert = () => {
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json());
-        setText(text.data)
+        setText(text.data);
+        message('Convert is success.');
     }
 
     const sizeFile = (file: File) => {

@@ -59,6 +59,7 @@ export const CardConvert = () => {
             }
         }).then(res => res.json());
         setText(text.data)
+        message('Convert is success.');
     }
 
     const sizeFile = (file: File) => {
