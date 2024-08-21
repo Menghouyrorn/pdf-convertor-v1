@@ -1,8 +1,5 @@
 "use client"
-import { saveAs } from 'file-saver';
-import Tesseract from 'tesseract.js'
-import { IoClose } from "react-icons/io5";
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -24,7 +21,6 @@ export const CardConvert = () => {
     const [pdfFile, setPdfFile] = useState<File | null>(null);
     const [filename, setFilename] = useState("");
     const [text, setText] = useState("");
-    const [jobId, setJobId] = useState<any>(null);
     const router = useRouter();
     const currentLang = CheckLange();
     const cartdata = CARD_DATA[1];
@@ -49,16 +45,27 @@ export const CardConvert = () => {
     }
 
     const ConvertImageTOText = async (file: any) => {
-        const texts: any = [];
+        let datatext = '';
+        let texts: any = [];
         for (const images of file) {
-            const data = Tesseract.recognize(images, "khm+eng", { logger: (e) => console.log(e) });
-            const text = (await data).data.text;
-            setJobId((await data).jobId);
-            texts.push(text);
+            const convert_to_data_url = images.replace("data:", "").replace(/^.+,/, "");
+
+            const text = await fetch(`/${currentLang ? 'kh' : 'en'}/api`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    url_image: convert_to_data_url
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json());
+            texts.push(text.data);
         }
-        texts.join("\n");
-        setText(texts);
-        message('Convert is success.')
+        for (let i = 0; i < texts.length; i++) {
+            datatext += texts[i];
+        }
+        setText(datatext);
+        message('Convert is success.');
     }
 
     const getPageImage = async (data: any) => {
@@ -171,7 +178,7 @@ export const CardConvert = () => {
                     pdfFile ? (
                         <div>
                             {
-                                jobId ? <CardSuccess isKhmer={currentLang} filename={filename} onDownload={() => handleDownload(text, filename)} filesize={sizeFile(pdfFile)} /> : <CardProcess isKhmer={currentLang} onClose={handleCancel} fileName={filename.length > 20 ? filename.slice(0, 10) + ' ...' : filename} size={sizeFile(pdfFile)} />
+                                text ? <CardSuccess isKhmer={currentLang} filename={filename} onDownload={() => handleDownload(text, filename)} filesize={sizeFile(pdfFile)} /> : <CardProcess isKhmer={currentLang} onClose={handleCancel} fileName={filename.length > 20 ? filename.slice(0, 10) + ' ...' : filename} size={sizeFile(pdfFile)} />
                             }
                         </div>
                     ) : <Card className='p-6 flex flex-col justify-center items-center w-[600px] max-md:w-[98%] m-auto'>

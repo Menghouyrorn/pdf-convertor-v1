@@ -20,9 +20,9 @@ export default async function RootLayout({ params: { locale }, children }: { par
     <html lang={locale} suppressHydrationWarning>
       <body className={locale == 'kh' ? khmerfont.className : inter.className}>
         <NextTopLoader color="#ef4444" showSpinner={false} />
-          <I18nProviderClient locale={locale}>
-            <AppProvider>{children}</AppProvider>
-          </I18nProviderClient>
+        <I18nProviderClient locale={locale}>
+          <AppProvider>{children}</AppProvider>
+        </I18nProviderClient>
       </body>
     </html>
   );
