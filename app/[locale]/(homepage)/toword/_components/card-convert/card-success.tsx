@@ -8,10 +8,10 @@ interface CardSuccessProps {
     filename: string;
     filesize: string;
     onDownload: () => void;
-    isKhmer:boolean
+    isKhmer: boolean
 }
 
-export const CardSuccess = ({ filename, filesize, onDownload,isKhmer }: CardSuccessProps) => {
+export const CardSuccess = ({ filename, filesize, onDownload, isKhmer }: CardSuccessProps) => {
     return (
         <div>
             <Card className='p-6 flex flex-col justify-center gap-y-6 items-center w-[600px] max-md:w-[98%] m-auto'>
@@ -19,7 +19,7 @@ export const CardSuccess = ({ filename, filesize, onDownload,isKhmer }: CardSucc
                     <div className='flex items-center justify-between'>
                         <div className="flex items-center gap-x-3">
                             <Image src={'/icon1.svg'} alt="icon" width={28} height={28} />
-                            <p className="text-sm">{filename.slice(0,-4) + '.doc'}</p>
+                            <p className="text-sm">{filename.slice(0, -4) + '.doc'}</p>
                         </div>
                         <div className="flex items-center gap-x-2">
                             <p className="text-sm">{filesize}</p>
