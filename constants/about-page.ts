@@ -1,6 +1,6 @@
 export const ABOUTPAGE = [
   {
-    titleabout: "អំពីរយើង",
+    titleabout: "អំពីរពួកយើង",
     titleabouten: "About Us",
     titleteam: "ក្រុមពួកយើង",
     titleteamen: "Our Team",
