@@ -24,6 +24,7 @@ export const CardConvert = () => {
     const router = useRouter();
     const currentLang = CheckLange();
     const cartdata = CARD_DATA[1];
+    // message
     const message = (message: string) => toast.success(message, {
         autoClose: 1500,
         icon: false,
@@ -43,7 +44,7 @@ export const CardConvert = () => {
         let fileInputOpen = document.getElementById('fileinput');
         fileInputOpen?.click();
     }
-
+    // convert image to text
     const ConvertImageTOText = async (file: any) => {
         let datatext = '';
         let texts: any = [];
@@ -67,7 +68,7 @@ export const CardConvert = () => {
         setText(datatext);
         message('Convert is success.');
     }
-
+    // get page as image from file pdf
     const getPageImage = async (data: any) => {
         const imageList = [];
         const canvas = document.createElement('canvas');
@@ -90,7 +91,7 @@ export const CardConvert = () => {
         ConvertImageTOText(imageList)
 
     }
-
+    // convert pdf file to base64
     const UrlUploader = (file: File) => {
         let pdfUrl = URL.createObjectURL(file);
         fetch(pdfUrl).then((res) => {
@@ -105,7 +106,7 @@ export const CardConvert = () => {
             })
         })
     }
-
+    // get size from file
     const sizeFile = (file: File) => {
         const fileSizeInBytes = file.size;
         let fileSize;
@@ -122,7 +123,7 @@ export const CardConvert = () => {
         setText("");
         setPdfFile(null);
     }
-
+    // donwload
     const handleDownload = (text: string, filename: string) => {
         const name = filename.slice(0, -4);
         const element = document.createElement('a');

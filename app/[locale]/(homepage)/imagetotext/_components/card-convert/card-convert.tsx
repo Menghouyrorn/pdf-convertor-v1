@@ -20,6 +20,7 @@ export const CardConvert = () => {
     const router = useRouter();
     const currentLang = CheckLange();
     const cartdata = CARD_DATA[2];
+    // message
     const message = (message: string) => toast.success(message, {
         autoClose: 1500,
         icon: false,
@@ -46,7 +47,7 @@ export const CardConvert = () => {
         let fileInputOpen = document.getElementById('fileinput');
         fileInputOpen?.click();
     }
-
+    // convert image to text
     const ConvertImageTOText = async (file: any) => {
         const convert_to_data_url = file.replace("data:", "").replace(/^.+,/, "");
         const text = await fetch(`/${currentLang ? 'kh':'en'}/api`, {
@@ -61,7 +62,7 @@ export const CardConvert = () => {
         setText(text.data)
         message('Convert is success.');
     }
-
+    // get size of image
     const sizeFile = (file: File) => {
         const fileSizeInBytes = file.size;
         let fileSize;
@@ -78,7 +79,7 @@ export const CardConvert = () => {
         setText("");
         setImgFile(null);
     }
-
+    // download
     const handleDownload = (text: string, filename: string) => {
         const name = filename.slice(0, -4);
         const element = document.createElement('a');
