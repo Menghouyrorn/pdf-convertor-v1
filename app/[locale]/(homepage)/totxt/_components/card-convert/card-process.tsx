@@ -1,6 +1,5 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Card, CardHeader, CardContent } from "@/components/ui/card"
 import Image from "next/image"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { RotatingLines } from "react-loader-spinner";
 import { TiDeleteOutline } from "react-icons/ti";
