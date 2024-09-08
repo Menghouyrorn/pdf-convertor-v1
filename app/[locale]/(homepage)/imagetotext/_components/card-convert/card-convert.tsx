@@ -50,7 +50,7 @@ export const CardConvert = () => {
     // convert image to text
     const ConvertImageTOText = async (file: any) => {
         const convert_to_data_url = file.replace("data:", "").replace(/^.+,/, "");
-        const text = await fetch(`/${currentLang ? 'kh':'en'}/api`, {
+        const text = await fetch(`/${currentLang ? 'kh' : 'en'}/api`, {
             method: 'POST',
             body: JSON.stringify({
                 url_image: convert_to_data_url
