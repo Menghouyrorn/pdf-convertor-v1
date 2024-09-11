@@ -1,11 +1,7 @@
 import { CardConvert } from "./_components";
 
 const Page =()=>{
-    return(
-        <div>
-            <CardConvert/>
-        </div>
-    )
+    return <CardConvert/>
 }
 
 export default Page;
