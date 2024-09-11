@@ -36,7 +36,6 @@ export const ListCard = ({ titile, isKhmer }: ListCardProps) => {
                     {DATA_PERSON.map((item, index) => {
                         return <CardPerson key={index} name={isKhmer ? item.namekh : item.name} role={isKhmer ? item.rolekh : item.role} url={item.url} />
                     })}
-
                 </div>
             </motion.div>
         </div>
