@@ -1,15 +1,11 @@
 "use client";
 import { saveAs } from "file-saver";
 import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import * as pdfjsLib from "pdfjs-dist";
 import { GlobalWorkerOptions } from "pdfjs-dist";
-import { CardProcess } from "./card-procress";
 import { useRouter } from "next/navigation";
-import { CardSuccess } from "./card-success";
+import { CardSuccess, CardProcess, ButtonIcon } from "@/components/shared";
 import { CheckLange } from "@/shared";
 import { CARD_DATA } from "@/constants";
 import { ToastContainer, toast } from "react-toastify";
@@ -17,6 +13,10 @@ import "react-toastify/ReactToastify.css";
 import { motion } from "framer-motion";
 import { Document, Packer, Paragraph, TextRun } from "docx";
 import { Noto_Sans_Khmer } from "next/font/google";
+import Tesseract from "tesseract.js";
+import { ProgressComponent } from "@/components/shared";
+import Image from "next/image";
+import { Input } from "@/components/ui/input";
 
 GlobalWorkerOptions.workerSrc = "/assets/js/pdf.worker.js";
 
@@ -30,6 +30,14 @@ export const CardConvert = () => {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [filename, setFilename] = useState("");
   const [text, setText] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [laoding, setLoading] = useState<{
+    isConvert: boolean;
+    isLoading: boolean;
+  }>({
+    isConvert: false,
+    isLoading: false,
+  });
   const router = useRouter();
   const currentLang = CheckLange();
   const cartdata = CARD_DATA[0];
@@ -46,7 +54,7 @@ export const CardConvert = () => {
   const handleSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files![0];
     setPdfFile(file);
-    setFilename(file.name);
+    setFilename(file.name.slice(0, -4));
     UrlUploader(file);
   };
 
@@ -61,20 +69,33 @@ export const CardConvert = () => {
     let datatext = "";
     let texts: any = [];
     for (const images of file) {
-      const convert_to_data_url = images
-        .replace("data:", "")
-        .replace(/^.+,/, "");
-
-      const text = await fetch(`/${currentLang ? "kh" : "en"}/api`, {
-        method: "POST",
-        body: JSON.stringify({
-          url_image: convert_to_data_url,
-        }),
-        headers: {
-          "Content-Type": "application/json",
+      await Tesseract.recognize(images, "khm+eng", {
+        logger: (m) => {
+          if (m.status == "recognizing text") {
+            setProgress(Math.round(m.progress * 100));
+          }
         },
-      }).then((res) => res.json());
-      texts.push(text.data);
+      })
+        .then((v) => {
+          texts.push(v.data.text);
+        })
+        .catch((v) => {
+          console.log(v);
+        });
+
+      // const convert_to_data_url = images
+      //   .replace("data:", "")
+      //   .replace(/^.+,/, "");
+
+      // const text = await fetch(`/${currentLang ? "kh" : "en"}/api`, {
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     url_image: convert_to_data_url,
+      //   }),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // }).then((res) => res.json());
     }
     for (let i = 0; i < texts.length; i++) {
       datatext += texts[i];
@@ -178,6 +199,7 @@ export const CardConvert = () => {
 
   return (
     <div className="space-y-10">
+      <ProgressComponent progress_value={progress} />
       <ToastContainer />
       <div className="space-y-4 pt-28">
         <motion.div
@@ -224,7 +246,8 @@ export const CardConvert = () => {
             {text ? (
               <CardSuccess
                 isKhmer={currentLang}
-                filename={filename}
+                filename={filename + ".doc"}
+                image="icon1.svg"
                 onDownload={() => handleDownloadDocx(text, filename)}
                 filesize={sizeFile(pdfFile)}
               />
@@ -266,9 +289,11 @@ export const CardConvert = () => {
                   className="hidden"
                   onChange={handleSelectFile}
                 />
-                <Button className="py-2 w-56" onClick={handleOpenFIleInput}>
-                  {currentLang ? "ជ្រើសរើសឯកសារ" : "Select File"}
-                </Button>
+                <ButtonIcon
+                  title={currentLang ? "ជ្រើសរើសឯកសារ" : "Select File"}
+                  className="py-2 w-56"
+                  onClick={handleOpenFIleInput}
+                ></ButtonIcon>
               </div>
             </CardContent>
           </Card>

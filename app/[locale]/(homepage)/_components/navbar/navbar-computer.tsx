@@ -34,7 +34,7 @@ export const NavbarComputer = () => {
               alt="logo"
             />
             <p className="font-extrabold text-sm text-[#1b1464] dark:text-white">
-              CAM PDF CONVERTER
+              PDF CONVERTER
             </p>
           </div>
         </Link>
