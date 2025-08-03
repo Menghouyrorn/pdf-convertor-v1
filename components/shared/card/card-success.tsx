@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import { GrFormView } from "react-icons/gr";
 import { IoMdDownload } from "react-icons/io";
+import { IoCopyOutline } from "react-icons/io5";
 
 interface CardSuccessProps {
   filename: string;
@@ -11,6 +12,7 @@ interface CardSuccessProps {
   filesize: string;
   onDownload: () => void;
   isKhmer: boolean;
+  onCopyText: () => void;
 }
 
 export const CardSuccess = ({
@@ -19,6 +21,7 @@ export const CardSuccess = ({
   onDownload,
   isKhmer,
   image,
+  onCopyText,
 }: CardSuccessProps) => {
   return (
     <div>
@@ -45,9 +48,9 @@ export const CardSuccess = ({
             <ButtonIcon
               className="bg-gray-200"
               size="sm"
-              title="View"
-              icon={<GrFormView size={25} />}
-              onClick={() => console.log("work")}
+              title="Copy"
+              icon={<IoCopyOutline size={15} />}
+              onClick={onCopyText}
               variant="outline"
             />
           </div>

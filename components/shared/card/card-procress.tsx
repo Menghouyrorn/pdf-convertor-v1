@@ -3,12 +3,14 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { RotatingLines } from "react-loader-spinner";
 import { TiDeleteOutline } from "react-icons/ti";
+import { ProgressComponent } from "../loading";
 
 interface CardProcessProps {
   fileName: string;
   size: string;
   onClose: () => void;
   isKhmer: boolean;
+  progress: number;
 }
 
 export const CardProcess = ({
@@ -16,6 +18,7 @@ export const CardProcess = ({
   size,
   onClose,
   isKhmer,
+  progress,
 }: CardProcessProps) => {
   return (
     <div>
@@ -38,6 +41,7 @@ export const CardProcess = ({
               </Button>
             </div>
           </div>
+          <ProgressComponent className="h-1" progress_value={progress} />
         </CardHeader>
         <CardContent>
           <div className="grid justify-center">

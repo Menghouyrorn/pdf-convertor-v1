@@ -38,6 +38,7 @@ export const CardConvert = () => {
     isConvert: false,
     isLoading: false,
   });
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const currentLang = CheckLange();
   const cartdata = CARD_DATA[0];
@@ -82,20 +83,6 @@ export const CardConvert = () => {
         .catch((v) => {
           console.log(v);
         });
-
-      // const convert_to_data_url = images
-      //   .replace("data:", "")
-      //   .replace(/^.+,/, "");
-
-      // const text = await fetch(`/${currentLang ? "kh" : "en"}/api`, {
-      //   method: "POST",
-      //   body: JSON.stringify({
-      //     url_image: convert_to_data_url,
-      //   }),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // }).then((res) => res.json());
     }
     for (let i = 0; i < texts.length; i++) {
       datatext += texts[i];
@@ -197,11 +184,14 @@ export const CardConvert = () => {
     message("Download success.");
   };
 
+  const onViewDetails = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div className="space-y-10">
-      <ProgressComponent progress_value={progress} />
+    <div className="space-y-6">
       <ToastContainer />
-      <div className="space-y-4 pt-28">
+      <div className="space-y-2 pt-6">
         <motion.div
           initial={{ x: -200, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -245,6 +235,7 @@ export const CardConvert = () => {
           <div>
             {text ? (
               <CardSuccess
+                onCopyText={onViewDetails}
                 isKhmer={currentLang}
                 filename={filename + ".doc"}
                 image="icon1.svg"
@@ -253,6 +244,7 @@ export const CardConvert = () => {
               />
             ) : (
               <CardProcess
+                progress={progress}
                 isKhmer={currentLang}
                 onClose={handleCancel}
                 fileName={
@@ -265,17 +257,17 @@ export const CardConvert = () => {
             )}
           </div>
         ) : (
-          <Card className="p-6 flex flex-col justify-center items-center w-[600px] max-md:w-[98%] m-auto">
+          <Card className=" p-2 flex flex-col justify-center items-center w-[500px] max-md:w-[98%] m-auto">
             <CardHeader className="text-center">
               <div className="space-y-4">
                 <Image
                   className="m-auto"
                   src={"/icon1.svg"}
-                  width={48}
-                  height={48}
+                  width={38}
+                  height={38}
                   alt="logo"
                 />
-                <CardTitle className="text-xl">
+                <CardTitle className="text-lg">
                   {currentLang ? cartdata.labelkh : cartdata.lable}
                 </CardTitle>
               </div>
@@ -290,6 +282,7 @@ export const CardConvert = () => {
                   onChange={handleSelectFile}
                 />
                 <ButtonIcon
+                  size="sm"
                   title={currentLang ? "ជ្រើសរើសឯកសារ" : "Select File"}
                   className="py-2 w-56"
                   onClick={handleOpenFIleInput}
