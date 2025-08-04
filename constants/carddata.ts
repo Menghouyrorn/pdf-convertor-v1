@@ -2,7 +2,7 @@ export const CARD_DATA = [
   {
     path: "/toword",
     image: "/icon1.svg",
-    lable: "Convert To Docx",
+    lable: "PDF To Docx",
     des: "Text recognition without software installation or download. This converter allows you to convert pdf to the Microsoft Word formats DOC and DOCX.",
     labelkh: "បម្លែងឯកសារទៅជាឯកសារ​ Docx",
     deskh:
@@ -11,7 +11,7 @@ export const CARD_DATA = [
   {
     path: "/totxt",
     image: "/icon5.svg",
-    lable: "Convert To TxT",
+    lable: "PDF To TxT",
     des: "Text recognition without software installation or download. This converter allows you to convert from pdf to the Text formats (.txt).",
     labelkh: "បម្លែងឯកសារទៅជាឯកសារ​ TxT",
     deskh:
@@ -20,7 +20,7 @@ export const CARD_DATA = [
   {
     path: "/imagetotext",
     image: "/icon4.svg",
-    lable: "Convert Image To TxT",
+    lable: "Image To TxT",
     des: "Text recognition without software installation or download. This converter allows you to convert from Image to the Text formats(.txt).",
     labelkh: "បម្លែងរូបភាពទៅជាឯកសារ​ TxT",
     deskh:
@@ -29,7 +29,7 @@ export const CARD_DATA = [
   {
     path: "/imagetoword",
     image: "/icon4.svg",
-    lable: "Convert Image To Docx",
+    lable: "Image To Docx",
     des: "Text recognition without software installation or download. This converter allows you to convert from Image to the File Word(.docx)).",
     labelkh: "បម្លែងរូបភាពទៅជាឯកសារ​ Docx",
     deskh:
