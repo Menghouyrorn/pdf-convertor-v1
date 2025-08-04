@@ -1,7 +1,7 @@
-import { CardConvert } from "./_components";
+import { CardConvert } from "./card-convert";
 
 const Page = () => {
-    return <CardConvert/>
-}
+  return <CardConvert />;
+};
 
 export default Page;

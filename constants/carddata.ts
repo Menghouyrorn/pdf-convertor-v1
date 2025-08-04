@@ -2,9 +2,9 @@ export const CARD_DATA = [
   {
     path: "/toword",
     image: "/icon1.svg",
-    lable: "Convert To Doc",
+    lable: "Convert To Docx",
     des: "Text recognition without software installation or download. This converter allows you to convert pdf to the Microsoft Word formats DOC and DOCX.",
-    labelkh: "បម្លែងឯកសារទៅជាឯកសារ​ Doc",
+    labelkh: "បម្លែងឯកសារទៅជាឯកសារ​ Docx",
     deskh:
       "នេះជាការចាប់យកតួរអក្សរនៅក្នុងឯកសារដោយមិនត្រូវការដំំឡើងកម្មវិធីនៅលើម៉ាសុីននោះទេ។ការបម្លែងនេះវាអនុញ្ញាតអោយអ្នកបម្លែងឯកសារពី PDF ទៅជា​ឯកសារ Microsoft Word ដែរអាចកែសម្រួលបាន។",
   },
@@ -29,9 +29,9 @@ export const CARD_DATA = [
   {
     path: "/imagetoword",
     image: "/icon4.svg",
-    lable: "Convert Image To Doc",
+    lable: "Convert Image To Docx",
     des: "Text recognition without software installation or download. This converter allows you to convert from Image to the File Word(.docx)).",
-    labelkh: "បម្លែងរូបភាពទៅជាឯកសារ​ Doc",
+    labelkh: "បម្លែងរូបភាពទៅជាឯកសារ​ Docx",
     deskh:
       "នេះជាការចាប់យកតួរអក្សរនៅក្នុងរូបភាពដោយមិនត្រូវការដំំឡើងកម្មវិធីនៅលើម៉ាសុីននោះទេ។ការបម្លែងនេះវាអនុញ្ញាតអោយអ្នកបម្លែងរូបភាពដែរមានអក្សរ ទៅជា​ឯកសារ Microsoft Word ដែរអាចកែសម្រួលបាន។",
   },

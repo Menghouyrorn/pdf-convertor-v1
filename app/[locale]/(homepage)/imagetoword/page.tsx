@@ -1,6 +1,6 @@
-import { CardConvert } from "./_components";
-const Page =()=>{
-    return <CardConvert/>
-}
+import { CardConvert } from "./card-convert";
+const Page = () => {
+  return <CardConvert />;
+};
 
 export default Page;

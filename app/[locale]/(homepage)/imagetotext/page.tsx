@@ -1,5 +1,5 @@
-import { CardConvert } from "./_components"
+import { CardConvert } from "./card-convert";
 
-export default function Page (){
-    return <CardConvert/>
+export default function Page() {
+  return <CardConvert />;
 }

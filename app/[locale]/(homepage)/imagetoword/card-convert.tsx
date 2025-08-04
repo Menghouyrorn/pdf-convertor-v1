@@ -1,25 +1,35 @@
 "use client";
+import { saveAs } from "file-saver";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { CardProcess } from "./card-process";
 import { useRouter } from "next/navigation";
-import { CardSuccess } from "./card-success";
+import { CardProcess, CardSuccess } from "@/components/shared";
 import { CheckLange } from "@/shared";
 import { CARD_DATA } from "@/constants";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { motion } from "framer-motion";
+import { Document, Packer, Paragraph, TextRun } from "docx";
+import { Noto_Sans_Khmer } from "next/font/google";
+import Tesseract from "tesseract.js";
+
+const khmerfont = Noto_Sans_Khmer({
+  subsets: ["khmer"],
+  weight: "300",
+  style: "normal",
+});
 
 export const CardConvert = () => {
   const [imgFile, setImgFile] = useState<File | null>(null);
   const [filename, setFilename] = useState("");
   const [text, setText] = useState("");
+  const [process, setProgress] = useState(0);
   const router = useRouter();
   const currentLang = CheckLange();
-  const cartdata = CARD_DATA[2];
+  const cartdata = CARD_DATA[3];
   // message
   const message = (message: string) =>
     toast.success(message, {
@@ -50,20 +60,22 @@ export const CardConvert = () => {
   };
   // convert image to text
   const ConvertImageTOText = async (file: any) => {
-    const convert_to_data_url = file.replace("data:", "").replace(/^.+,/, "");
-    const text = await fetch(`/${currentLang ? "kh" : "en"}/api`, {
-      method: "POST",
-      body: JSON.stringify({
-        url_image: convert_to_data_url,
-      }),
-      headers: {
-        "Content-Type": "application/json",
+    await Tesseract.recognize(file, "khm+eng", {
+      logger: (m) => {
+        if (m.status == "recognizing text") {
+          setProgress(Math.round(m.progress * 100));
+        }
       },
-    }).then((res) => res.json());
-    setText(text.data);
+    })
+      .then((v) => {
+        setText(v.data.text);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     message("Convert is success.");
   };
-  // get size of image
+  // get size of file
   const sizeFile = (file: File) => {
     const fileSizeInBytes = file.size;
     let fileSize;
@@ -75,29 +87,53 @@ export const CardConvert = () => {
     }
     return fileSize;
   };
+  // cancel
   const handleCancel = async () => {
     router.refresh();
     setText("");
+    setProgress(0);
     setImgFile(null);
   };
   // download
-  const handleDownload = (text: string, filename: string) => {
-    const name = filename.slice(0, -4);
-    const element = document.createElement("a");
-    const file = new Blob([text], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = name + ".txt";
-    document.body.appendChild(element);
-    element.click();
+  const handleDownloadDocx = (datatext: string, filename: string) => {
+    const textlast = () => {
+      let lasttext = "";
+      for (let i = 0; i < datatext.length; i++) {
+        lasttext += datatext[i];
+      }
+
+      return lasttext;
+    };
+    const lastdatatext = textlast();
+    const doc = new Document({
+      sections: [
+        {
+          properties: {},
+          children: [
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: lastdatatext,
+                  font: khmerfont.className,
+                  size: 24,
+                }),
+              ],
+            }),
+          ],
+        },
+      ],
+    });
+    Packer.toBlob(doc).then((blob) => {
+      saveAs(blob, `${filename.slice(0, -4)}.docx`);
+    });
     handleCancel();
-    message("Download is success.");
+    message("Download success.");
   };
   return (
-    <div className="space-y-10">
-      <ToastContainer />
-      <div className="space-y-4 pt-28">
+    <div className="space-y-8">
+      <div className="space-y-2 pt-8">
         <motion.div
-          initial={{ x: -200, opacity: 0 }}
+          initial={{ x: 200, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{
             delay: 0.1,
@@ -106,7 +142,7 @@ export const CardConvert = () => {
             stiffness: 55,
           }}
         >
-          <h1 className="font-extrabold text-3xl text-center">
+          <h1 className="uppercase font-extrabold text-3xl text-center">
             {currentLang ? cartdata.labelkh : cartdata.lable}
           </h1>
         </motion.div>
@@ -139,13 +175,18 @@ export const CardConvert = () => {
           <div>
             {text ? (
               <CardSuccess
+                image="icon4.svg"
+                onCancel={handleCancel}
+                text={text}
                 isKhmer={currentLang}
                 filename={filename}
-                onDownload={() => handleDownload(text, filename)}
+                onDownload={() => handleDownloadDocx(text, filename)}
                 filesize={sizeFile(imgFile)}
               />
             ) : (
               <CardProcess
+                image="icon4.svg"
+                progress={process}
                 isKhmer={currentLang}
                 onClose={handleCancel}
                 fileName={
@@ -158,17 +199,17 @@ export const CardConvert = () => {
             )}
           </div>
         ) : (
-          <Card className="p-6 flex flex-col justify-center items-center w-[600px] max-md:w-[98%] m-auto">
+          <Card className="flex flex-col justify-center items-center w-[500px] max-md:w-[98%] m-auto">
             <CardHeader className="text-center">
               <div className="space-y-4">
                 <Image
                   className="m-auto"
                   src={"/icon4.svg"}
-                  width={48}
-                  height={48}
+                  width={38}
+                  height={38}
                   alt="logo"
                 />
-                <CardTitle className="text-xl">
+                <CardTitle className="text-base">
                   {currentLang ? cartdata.labelkh : cartdata.lable}
                 </CardTitle>
               </div>
@@ -182,7 +223,11 @@ export const CardConvert = () => {
                   className="hidden"
                   onChange={handleSelectFile}
                 />
-                <Button className="py-2 w-56" onClick={handleOpenFIleInput}>
+                <Button
+                  size="sm"
+                  className="py-2 w-56"
+                  onClick={handleOpenFIleInput}
+                >
                   {currentLang ? "ជ្រើសរើសឯកសារ" : "Select File"}
                 </Button>
               </div>

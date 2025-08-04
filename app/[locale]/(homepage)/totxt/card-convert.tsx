@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import * as pdfjsLib from "pdfjs-dist";
 import { GlobalWorkerOptions } from "pdfjs-dist";
-import { CardProcess } from "./card-process";
 import { useRouter } from "next/navigation";
-import { CardSuccess } from "./card-success";
 import { CheckLange } from "@/shared";
 import { CARD_DATA } from "@/constants";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { motion } from "framer-motion";
+import Tesseract from "tesseract.js";
+import { CardSuccess, CardProcess } from "@/components/shared";
 
 GlobalWorkerOptions.workerSrc = "/assets/js/pdf.worker.js";
 
@@ -21,6 +21,7 @@ export const CardConvert = () => {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [filename, setFilename] = useState("");
   const [text, setText] = useState("");
+  const [process, setProgress] = useState(0);
   const router = useRouter();
   const currentLang = CheckLange();
   const cartdata = CARD_DATA[1];
@@ -50,20 +51,19 @@ export const CardConvert = () => {
     let datatext = "";
     let texts: any = [];
     for (const images of file) {
-      const convert_to_data_url = images
-        .replace("data:", "")
-        .replace(/^.+,/, "");
-
-      const text = await fetch(`/${currentLang ? "kh" : "en"}/api`, {
-        method: "POST",
-        body: JSON.stringify({
-          url_image: convert_to_data_url,
-        }),
-        headers: {
-          "Content-Type": "application/json",
+      await Tesseract.recognize(images, "khm+eng", {
+        logger: (m) => {
+          if (m.status == "recognizing text") {
+            setProgress(Math.round(m.progress * 100));
+          }
         },
-      }).then((res) => res.json());
-      texts.push(text.data);
+      })
+        .then((v) => {
+          texts.push(v.data.text);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
     for (let i = 0; i < texts.length; i++) {
       datatext += texts[i];
@@ -122,6 +122,7 @@ export const CardConvert = () => {
   };
   const handleCancel = async () => {
     router.refresh();
+    setProgress(0);
     setText("");
     setPdfFile(null);
   };
@@ -138,9 +139,8 @@ export const CardConvert = () => {
     message("Download success.");
   };
   return (
-    <div className="space-y-10">
-      <ToastContainer />
-      <div className="space-y-4 pt-28">
+    <div className="space-y-8">
+      <div className="space-y-2 pt-8">
         <motion.div
           initial={{ x: 200, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -151,7 +151,7 @@ export const CardConvert = () => {
             stiffness: 55,
           }}
         >
-          <h1 className="font-extrabold text-3xl text-center">
+          <h1 className="uppercase font-extrabold text-3xl text-center">
             {currentLang ? cartdata.labelkh : cartdata.lable}
           </h1>
         </motion.div>
@@ -184,6 +184,9 @@ export const CardConvert = () => {
           <div>
             {text ? (
               <CardSuccess
+                image="icon5.svg"
+                onCancel={handleCancel}
+                text={text}
                 isKhmer={currentLang}
                 filename={filename}
                 onDownload={() => handleDownload(text, filename)}
@@ -191,6 +194,8 @@ export const CardConvert = () => {
               />
             ) : (
               <CardProcess
+                progress={process}
+                image="icon5.svg"
                 isKhmer={currentLang}
                 onClose={handleCancel}
                 fileName={
@@ -203,17 +208,17 @@ export const CardConvert = () => {
             )}
           </div>
         ) : (
-          <Card className="p-6 flex flex-col justify-center items-center w-[600px] max-md:w-[98%] m-auto">
+          <Card className="flex flex-col justify-center items-center w-[500px] max-md:w-[98%] m-auto">
             <CardHeader className="text-center">
               <div className="space-y-4">
                 <Image
                   className="m-auto"
                   src={"/icon5.svg"}
-                  width={48}
-                  height={48}
+                  width={38}
+                  height={38}
                   alt="logo"
                 />
-                <CardTitle className="text-xl">
+                <CardTitle className="text-base">
                   {currentLang ? cartdata.labelkh : cartdata.lable}
                 </CardTitle>
               </div>
@@ -227,7 +232,11 @@ export const CardConvert = () => {
                   className="hidden"
                   onChange={handleSelectFile}
                 />
-                <Button className="py-2 w-56" onClick={handleOpenFIleInput}>
+                <Button
+                  size="sm"
+                  className="py-2 w-56"
+                  onClick={handleOpenFIleInput}
+                >
                   {currentLang ? "ជ្រើសរើសឯកសារ" : "Select File"}
                 </Button>
               </div>

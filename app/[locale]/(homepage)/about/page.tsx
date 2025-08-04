@@ -1,5 +1,4 @@
 "use client";
-import { ListCard } from "./_components";
 import { CheckLange } from "@/shared";
 import { ABOUTPAGE } from "@/constants";
 import { motion } from "framer-motion";
@@ -40,7 +39,6 @@ const Page = () => {
               </p>
             </motion.div>
           </div>
-          {/* <ListCard titile={currentlang ? item.titleteam : item.titleteamen} isKhmer={currentlang} /> */}
         </div>
       ))}
     </>

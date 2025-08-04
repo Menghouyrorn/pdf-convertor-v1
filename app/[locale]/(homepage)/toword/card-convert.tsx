@@ -38,7 +38,6 @@ export const CardConvert = () => {
     isConvert: false,
     isLoading: false,
   });
-  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const currentLang = CheckLange();
   const cartdata = CARD_DATA[0];
@@ -145,6 +144,7 @@ export const CardConvert = () => {
   // cancel convert
   const handleCancel = async () => {
     router.refresh();
+    setProgress(0);
     setText("");
     setPdfFile(null);
   };
@@ -180,18 +180,12 @@ export const CardConvert = () => {
     Packer.toBlob(doc).then((blob) => {
       saveAs(blob, `${filename.slice(0, -4)}.docx`);
     });
-    handleCancel();
     message("Download success.");
-  };
-
-  const onViewDetails = () => {
-    setIsOpen(!isOpen);
   };
 
   return (
     <div className="space-y-6">
-      <ToastContainer />
-      <div className="space-y-2 pt-6">
+      <div className="space-y-2 pt-8">
         <motion.div
           initial={{ x: -200, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -202,7 +196,7 @@ export const CardConvert = () => {
             stiffness: 55,
           }}
         >
-          <h1 className="font-extrabold text-3xl text-center">
+          <h1 className="font-extrabold uppercase text-3xl text-center">
             {currentLang ? cartdata.labelkh : cartdata.lable}
           </h1>
         </motion.div>
@@ -216,7 +210,7 @@ export const CardConvert = () => {
             delay: 0.1,
           }}
         >
-          <p className="w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center">
+          <p className=" w-[60%] max-lg:w-[90%] max-md:w-[99%] m-auto text-center">
             {currentLang ? cartdata.deskh : cartdata.des}
           </p>
         </motion.div>
@@ -235,7 +229,8 @@ export const CardConvert = () => {
           <div>
             {text ? (
               <CardSuccess
-                onCopyText={onViewDetails}
+                onCancel={handleCancel}
+                text={text}
                 isKhmer={currentLang}
                 filename={filename + ".doc"}
                 image="icon1.svg"
@@ -244,6 +239,7 @@ export const CardConvert = () => {
               />
             ) : (
               <CardProcess
+                image="icon1.svg"
                 progress={progress}
                 isKhmer={currentLang}
                 onClose={handleCancel}

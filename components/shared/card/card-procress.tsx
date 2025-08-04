@@ -11,6 +11,7 @@ interface CardProcessProps {
   onClose: () => void;
   isKhmer: boolean;
   progress: number;
+  image?: string;
 }
 
 export const CardProcess = ({
@@ -19,6 +20,7 @@ export const CardProcess = ({
   onClose,
   isKhmer,
   progress,
+  image,
 }: CardProcessProps) => {
   return (
     <div>
@@ -26,7 +28,7 @@ export const CardProcess = ({
         <CardHeader className="w-full shadow-md border py-5 rounded-md">
           <div className=" flex items-center justify-between">
             <div className="flex items-center gap-x-3">
-              <Image src={"/icon1.svg"} alt="icon" width={28} height={28} />
+              <Image src={`/${image}`} alt="icon" width={28} height={28} />
               <p className="text-sm">{fileName}</p>
             </div>
             <div className="flex items-center gap-x-2">
